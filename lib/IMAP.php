@@ -129,7 +129,7 @@ class IMAP extends Base {
             # 67: CURLE_LOGIN_DENIED
             # 94: CURLE_AUTH_ERROR)
             logger('user_external')->error(
-                'ERROR: IMAP Login failed via curl: ' .  curl_strerror($errorcode),
+                'ERROR: IMAP Login failed for ' . $uid . ' via curl: ' .  curl_strerror($errorcode),
                 ['app' => 'user_external']
             );
         } else {
