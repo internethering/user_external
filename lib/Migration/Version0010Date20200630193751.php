@@ -32,34 +32,34 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version0010Date20200630193751 extends SimpleMigrationStep {
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
+    /**
+     * @param IOutput $output
+     * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+     * @param array $options
+     * @return null|ISchemaWrapper
+     */
+    public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+        /** @var ISchemaWrapper $schema */
+        $schema = $schemaClosure();
 
-		if (!$schema->hasTable('users_external')) {
-			$table = $schema->createTable('users_external');
-			$table->addColumn('backend', Types::STRING, [
-				'notnull' => true,
-				'length' => 128,
-				'default' => '',
-			]);
-			$table->addColumn('uid', Types::STRING, [
-				'notnull' => true,
-				'length' => 64,
-				'default' => '',
-			]);
-			$table->addColumn('displayname', Types::STRING, [
-				'notnull' => false,
-				'length' => 64,
-			]);
-			$table->setPrimaryKey(['uid', 'backend']);
-		}
-		return $schema;
-	}
+        if (!$schema->hasTable('users_external')) {
+            $table = $schema->createTable('users_external');
+            $table->addColumn('backend', Types::STRING, [
+                'notnull' => true,
+                'length' => 128,
+                'default' => '',
+            ]);
+            $table->addColumn('uid', Types::STRING, [
+                'notnull' => true,
+                'length' => 64,
+                'default' => '',
+            ]);
+            $table->addColumn('displayname', Types::STRING, [
+                'notnull' => false,
+                'length' => 64,
+            ]);
+            $table->setPrimaryKey(['uid', 'backend']);
+        }
+        return $schema;
+    }
 }
