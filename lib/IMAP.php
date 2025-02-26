@@ -8,6 +8,7 @@
  * See the COPYING-README file.
  */
 namespace OCA\UserExternal;
+use function OCP\Log\logger;
 
 /**
  * User authentication against an IMAP mail server
@@ -61,6 +62,11 @@ class IMAP extends Base {
 			$uid = str_replace("%40", "@", $uid);
 		}
 
+		// if uid is not an email-adress, don't use this method
+        if (strpos($uid, '@') === false) {
+            return false;
+        }
+
 		$pieces = explode('@', $uid);
 		if ($this->domain !== '') {
 			if (count($pieces) === 1) {
@@ -71,7 +77,7 @@ class IMAP extends Base {
 					$uid = $pieces[0];
 				}
 			} else {
-				\OC::$server->getLogger()->error(
+                logger('user_external')->error(
 					'ERROR: User has a wrong domain! Expecting: '.$this->domain,
 					['app' => 'user_external']
 				);
@@ -111,7 +117,7 @@ class IMAP extends Base {
 			   $errorcode === 28) {
 			# This is not defined in PHP-8.x
 			# 28: CURLE_OPERATION_TIMEDOUT
-			\OC::$server->getLogger()->error(
+			logger('user_external')->error(
 				'ERROR: Could not connect to imap server via curl: ' .  curl_strerror($errorcode),
 				['app' => 'user_external']
 			);
@@ -122,12 +128,12 @@ class IMAP extends Base {
 			# 9: CURLE_REMOTE_ACCESS_DENIED
 			# 67: CURLE_LOGIN_DENIED
 			# 94: CURLE_AUTH_ERROR)
-			\OC::$server->getLogger()->error(
+			logger('user_external')->error(
 				'ERROR: IMAP Login failed via curl: ' .  curl_strerror($errorcode),
 				['app' => 'user_external']
 			);
 		} else {
-			\OC::$server->getLogger()->error(
+			logger('user_external')->error(
 			'ERROR: IMAP server returned an error: ' . $errorcode . ' / ' . curl_strerror($errorcode),
 				['app' => 'user_external']
 			);

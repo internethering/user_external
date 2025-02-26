@@ -7,6 +7,7 @@
  */
 
 namespace OCA\UserExternal;
+use function OCP\Log\logger;
 
 class WebDavAuth extends Base {
 	private $webDavAuthUrl;
@@ -27,14 +28,14 @@ class WebDavAuth extends Base {
 	public function checkPassword($uid, $password) {
 		$arr = explode('://', $this->webDavAuthUrl, 2);
 		if (! isset($arr) or count($arr) !== 2) {
-			\OC::$server->getLogger()->error('ERROR: Invalid WebdavUrl: "'.$this->webDavAuthUrl.'" ', ['app' => 'user_external']);
+			logger('user_external')->error('ERROR: Invalid WebdavUrl: "'.$this->webDavAuthUrl.'" ', ['app' => 'user_external']);
 			return false;
 		}
 		list($protocol, $path) = $arr;
 		$url = $protocol.'://'.urlencode($uid).':'.urlencode($password).'@'.$path;
 		$headers = get_headers($url);
 		if ($headers === false) {
-			\OC::$server->getLogger()->error('ERROR: Not possible to connect to WebDAV Url: "'.$protocol.'://'.$path.'" ', ['app' => 'user_external']);
+			logger('user_external')->error('ERROR: Not possible to connect to WebDAV Url: "'.$protocol.'://'.$path.'" ', ['app' => 'user_external']);
 			return false;
 		}
 		$returnCode = substr($headers[0], 9, 3);

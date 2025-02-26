@@ -8,3 +8,4 @@ tests/clover.xml
 build/artifacts
 vendor
 .php-cs-fixer.cache
+composer.lock
