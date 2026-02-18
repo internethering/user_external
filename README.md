@@ -3,6 +3,8 @@ External user authentication
 
 **Authenticate user login against IMAP, SMB, FTP, WebDAV, HTTP BasicAuth, SSH and XMPP**
 
+# **⚠⚠ Warning:** ONLY IMAP IS TESTED!
+
 Passwords are not stored locally; authentication always happens against
 the remote server.
 
@@ -33,7 +35,7 @@ Add the following to `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\FTP',
+            'class' => '\\OCA\\UserExternal\\FTP',
             'arguments' => array('127.0.0.1'),
         ),
     ),
@@ -42,7 +44,7 @@ To enable SSL connections via `ftps`, append a second parameter `true`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\FTP',
+            'class' => '\\OCA\UserExternal\\FTP',
             'arguments' => array('127.0.0.1', true),
         ),
     ),
@@ -71,7 +73,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\IMAP',
+            'class' => '\\OCA\\UserExternal\\IMAP',
             'arguments' => array(
                 '127.0.0.1', 993, 'ssl', 'example.com', true, false
             ),
@@ -104,7 +106,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\SMB',
+            'class' => '\\OCA\\UserExternal\\SMB',
             'arguments' => array('127.0.0.1'),
         ),
     ),
@@ -128,7 +130,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\WebDavAuth',
+            'class' => '\\OCA\\UserExternal\\WebDavAuth',
             'arguments' => array('https://example.com/webdav'),
         ),
     ),
@@ -151,7 +153,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\BasicAuth',
+            'class' => '\\OCA\UserExternal\\BasicAuth',
             'arguments' => array('https://example.com/basic_auth'),
         ),
     ),
@@ -172,7 +174,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array(
         array(
-            'class' => '\OCA\UserExternal\SSH',
+            'class' => '\\OCA\\UserExternal\\SSH',
             'arguments' => array('127.0.0.1', '22'),
         ),
     ),
@@ -193,7 +195,7 @@ Add the following to your `config.php`:
 
     'user_backends' => array (
         0 => array (
-            'class' => '\OCA\UserExternal\XMPP',
+            'class' => '\\OCA\\UserExternal\\XMPP',
                 'arguments' => array (
                     0 => 'dbhost',
                     1 => 'prosodydb',
