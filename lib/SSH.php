@@ -6,6 +6,7 @@
  * See the COPYING-README file.
  */
 namespace OCA\UserExternal;
+use function OCP\Log\logger;
 
 /**
  * User authentication against a SSH server
@@ -19,43 +20,43 @@ namespace OCA\UserExternal;
 
 
 class SSH extends Base {
-	private $host;
-	private $port;
+    private $host;
+    private $port;
 
-	/**
-	 * Create a new SSH authentication provider
-	 *
-	 * @param string $host Hostname or IP address of SSH servr
-	 */
-	public function __construct($host, $port = 22) {
-		parent::__construct($host);
-		$this->host = $host;
-		$this->port = $port;
-	}
+    /**
+     * Create a new SSH authentication provider
+     *
+     * @param string $host Hostname or IP address of SSH servr
+     */
+    public function __construct($host, $port = 22) {
+        parent::__construct($host);
+        $this->host = $host;
+        $this->port = $port;
+    }
 
-	/**
-	 * Check if the password is correct without logging in
-	 * Requires the php-ssh2 pecl extension
-	 *
-	 * @param string $uid      The username
-	 * @param string $password The password
-	 *
-	 * @return true/false
-	 */
-	public function checkPassword($uid, $password) {
-		if (!extension_loaded('ssh2')) {
-			$this->logger->error(
-				'ERROR: php-ssh2 PECL module missing',
-				['app' => 'user_external']
-			);
-			return false;
-		}
-		$connection = ssh2_connect($this->host, $this->port);
-		if (ssh2_auth_password($connection, $uid, $password)) {
-			$this->storeUser($uid);
-			return $uid;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Check if the password is correct without logging in
+     * Requires the php-ssh2 pecl extension
+     *
+     * @param string $uid      The username
+     * @param string $password The password
+     *
+     * @return true/false
+     */
+    public function checkPassword($uid, $password) {
+        if (!extension_loaded('ssh2')) {
+            logger('user_external')->error(
+                'ERROR: php-ssh2 PECL module missing',
+                ['app' => 'user_external']
+            );
+            return false;
+        }
+        $connection = ssh2_connect($this->host, $this->port);
+        if (ssh2_auth_password($connection, $uid, $password)) {
+            $this->storeUser($uid);
+            return $uid;
+        } else {
+            return false;
+        }
+    }
 }

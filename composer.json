@@ -1,10 +1,10 @@
 {
-	"name": "nextcloud/user_external",
+	"name": "internethering/user_external",
 	"config": {
 		"optimize-autoloader": true,
 		"classmap-authoritative": true,
 		"platform": {
-			"php": "7.3"
+			"php": "8.2"
 		}
 	},
 	"scripts": {

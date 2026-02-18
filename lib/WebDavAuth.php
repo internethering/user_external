@@ -7,43 +7,44 @@
  */
 
 namespace OCA\UserExternal;
+use function OCP\Log\logger;
 
 class WebDavAuth extends Base {
-	private $webDavAuthUrl;
+    private $webDavAuthUrl;
 
-	public function __construct($webDavAuthUrl) {
-		parent::__construct($webDavAuthUrl);
-		$this->webDavAuthUrl = $webDavAuthUrl;
-	}
+    public function __construct($webDavAuthUrl) {
+        parent::__construct($webDavAuthUrl);
+        $this->webDavAuthUrl = $webDavAuthUrl;
+    }
 
-	/**
-	 * Check if the password is correct without logging in the user
-	 *
-	 * @param string $uid      The username
-	 * @param string $password The password
-	 *
-	 * @return true/false
-	 */
-	public function checkPassword($uid, $password) {
-		$arr = explode('://', $this->webDavAuthUrl, 2);
-		if (! isset($arr) or count($arr) !== 2) {
-			$this->logger->error('ERROR: Invalid WebdavUrl: "'.$this->webDavAuthUrl.'" ', ['app' => 'user_external']);
-			return false;
-		}
-		list($protocol, $path) = $arr;
-		$url = $protocol.'://'.urlencode($uid).':'.urlencode($password).'@'.$path;
-		$headers = get_headers($url);
-		if ($headers === false) {
-			$this->logger->error('ERROR: Not possible to connect to WebDAV Url: "'.$protocol.'://'.$path.'" ', ['app' => 'user_external']);
-			return false;
-		}
-		$returnCode = substr($headers[0], 9, 3);
+    /**
+     * Check if the password is correct without logging in the user
+     *
+     * @param string $uid      The username
+     * @param string $password The password
+     *
+     * @return true/false
+     */
+    public function checkPassword($uid, $password) {
+        $arr = explode('://', $this->webDavAuthUrl, 2);
+        if (! isset($arr) or count($arr) !== 2) {
+            logger('user_external')->error('ERROR: Invalid WebdavUrl: "'.$this->webDavAuthUrl.'" ', ['app' => 'user_external']);
+            return false;
+        }
+        list($protocol, $path) = $arr;
+        $url = $protocol.'://'.urlencode($uid).':'.urlencode($password).'@'.$path;
+        $headers = get_headers($url);
+        if ($headers === false) {
+            logger('user_external')->error('ERROR: Not possible to connect to WebDAV Url: "'.$protocol.'://'.$path.'" ', ['app' => 'user_external']);
+            return false;
+        }
+        $returnCode = substr($headers[0], 9, 3);
 
-		if (substr($returnCode, 0, 1) === '2') {
-			$this->storeUser($uid);
-			return $uid;
-		} else {
-			return false;
-		}
-	}
+        if (substr($returnCode, 0, 1) === '2') {
+            $this->storeUser($uid);
+            return $uid;
+        } else {
+            return false;
+        }
+    }
 }

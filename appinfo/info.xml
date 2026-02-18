@@ -18,20 +18,20 @@ Read the [documentation](https://github.com/nextcloud/user_external#readme) to l
     ]]></description>
 	<version>3.5.0</version>
 	<licence>agpl</licence>
-	<author>Robin Appelman</author>
+	<author>Robin Appelman, Richard Hering</author>
 	<namespace>UserExternal</namespace>
 	<types>
 		<prelogin/>
 		<authentication/>
 	</types>
 	<documentation>
-		<admin>https://github.com/nextcloud/user_external#readme</admin>
+		<admin>https://github.com/internethering/user_external#readme</admin>
 	</documentation>
 	<category>tools</category>
 	<category>integration</category>
-	<website>https://github.com/nextcloud/user_external/</website>
-	<bugs>https://github.com/nextcloud/user_external/issues</bugs>
-	<repository type="git">https://github.com/nextcloud/user_external.git</repository>
+	<website>https://github.com/internethering/user_external/</website>
+	<bugs>https://github.com/internethering/user_external/issues</bugs>
+	<repository type="git">https://github.com/internethering/user_external.git</repository>
 	<dependencies>
 		<nextcloud min-version="25" max-version="30" />
 	</dependencies>

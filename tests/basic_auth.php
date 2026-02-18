@@ -7,29 +7,29 @@
  */
 
 class Test_User_BasicAuth extends \Test\TestCase {
-	/**
-	 * @var OC_User_BasicAuth $instance
-	 */
-	private $instance;
+    /**
+     * @var OC_User_BasicAuth $instance
+     */
+    private $instance;
 
-	private function getConfig() {
-		return include(__DIR__.'/config.php');
-	}
+    private function getConfig() {
+        return include(__DIR__.'/config.php');
+    }
 
-	public function skip() {
-		$config = $this->getConfig();
-		$this->skipUnless($config['basic_auth']['run']);
-	}
+    public function skip() {
+        $config = $this->getConfig();
+        $this->skipUnless($config['basic_auth']['run']);
+    }
 
-	protected function setUp() {
-		parent::setUp();
-		$config = $this->getConfig();
-		$this->instance = new OC_User_BasicAuth($config['basic_auth']['url']);
-	}
+    protected function setUp() {
+        parent::setUp();
+        $config = $this->getConfig();
+        $this->instance = new OC_User_BasicAuth($config['basic_auth']['url']);
+    }
 
-	public function testLogin() {
-		$config = $this->getConfig();
-		$this->assertEquals($config['basic_auth']['user'], $this->instance->checkPassword($config['basic_auth']['user'], $config['basic_auth']['password']));
-		$this->assertFalse($this->instance->checkPassword($config['basic_auth']['user'], $config['basic_auth']['password'].'foo'));
-	}
+    public function testLogin() {
+        $config = $this->getConfig();
+        $this->assertEquals($config['basic_auth']['user'], $this->instance->checkPassword($config['basic_auth']['user'], $config['basic_auth']['password']));
+        $this->assertFalse($this->instance->checkPassword($config['basic_auth']['user'], $config['basic_auth']['password'].'foo'));
+    }
 }
